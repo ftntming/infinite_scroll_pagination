@@ -1,21 +1,21 @@
 import 'dart:async';
 
-import 'package:breaking_bapp/character_summary.dart';
-import 'package:breaking_bapp/presentation/common/character_search_input_sliver.dart';
-import 'package:breaking_bapp/presentation/search_grid_bloc/character_grid_item.dart';
-import 'package:breaking_bapp/presentation/search_grid_bloc/character_sliver_grid_bloc.dart';
+import 'package:breaking_bapp/presentation/common/user_search_input_sliver.dart';
+import 'package:breaking_bapp/presentation/search_grid_bloc/user_grid_item.dart';
+import 'package:breaking_bapp/presentation/search_grid_bloc/user_sliver_grid_bloc.dart';
+import 'package:breaking_bapp/user_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-class CharacterSliverGrid extends StatefulWidget {
+class UserSliverGrid extends StatefulWidget {
   @override
-  _CharacterSliverGridState createState() => _CharacterSliverGridState();
+  _UserSliverGridState createState() => _UserSliverGridState();
 }
 
-class _CharacterSliverGridState extends State<CharacterSliverGrid> {
-  final CharacterSliverGridBloc _bloc = CharacterSliverGridBloc();
-  final PagingController<int, CharacterSummary> _pagingController =
+class _UserSliverGridState extends State<UserSliverGrid> {
+  final UserSliverGridBloc _bloc = UserSliverGridBloc();
+  final PagingController<int, UserSummary> _pagingController =
       PagingController(firstPageKey: 0);
   late StreamSubscription _blocListingStateSubscription;
 
@@ -43,12 +43,12 @@ class _CharacterSliverGridState extends State<CharacterSliverGrid> {
   @override
   Widget build(BuildContext context) => CustomScrollView(
         slivers: <Widget>[
-          CharacterSearchInputSliver(
+          UserSearchInputSliver(
             onChanged: (searchTerm) => _bloc.onSearchInputChangedSink.add(
               searchTerm,
             ),
           ),
-          PagedSliverGrid<int, CharacterSummary>(
+          PagedSliverGrid<int, UserSummary>(
             pagingController: _pagingController,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               childAspectRatio: 100 / 150,
@@ -56,9 +56,9 @@ class _CharacterSliverGridState extends State<CharacterSliverGrid> {
               mainAxisSpacing: 10,
               crossAxisCount: 3,
             ),
-            builderDelegate: PagedChildBuilderDelegate<CharacterSummary>(
-              itemBuilder: (context, item, index) => CharacterGridItem(
-                character: item,
+            builderDelegate: PagedChildBuilderDelegate<UserSummary>(
+              itemBuilder: (context, item, index) => UserGridItem(
+                user: item,
               ),
             ),
           ),

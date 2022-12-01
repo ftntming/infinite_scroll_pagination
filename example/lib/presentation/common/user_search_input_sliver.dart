@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:rxdart/rxdart.dart';
 
-class CharacterSearchInputSliver extends StatefulWidget {
-  const CharacterSearchInputSliver({
+class UserSearchInputSliver extends StatefulWidget {
+  const UserSearchInputSliver({
     Key? key,
     this.onChanged,
     this.debounceTime,
@@ -13,12 +13,10 @@ class CharacterSearchInputSliver extends StatefulWidget {
   final Duration? debounceTime;
 
   @override
-  _CharacterSearchInputSliverState createState() =>
-      _CharacterSearchInputSliverState();
+  _UserSearchInputSliverState createState() => _UserSearchInputSliverState();
 }
 
-class _CharacterSearchInputSliverState
-    extends State<CharacterSearchInputSliver> {
+class _UserSearchInputSliverState extends State<UserSearchInputSliver> {
   final StreamController<String> _textChangeStreamController =
       StreamController();
   late StreamSubscription _textChangesSubscription;
@@ -47,7 +45,7 @@ class _CharacterSearchInputSliverState
           child: TextField(
             decoration: const InputDecoration(
               prefixIcon: Icon(Icons.search),
-              labelText: 'Character Name',
+              labelText: 'User Name',
             ),
             onChanged: _textChangeStreamController.add,
           ),

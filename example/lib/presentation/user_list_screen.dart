@@ -1,38 +1,38 @@
-import 'package:breaking_bapp/presentation/pull_to_refresh/character_list_view.dart';
-import 'package:breaking_bapp/presentation/search_grid_bloc/character_sliver_grid.dart';
-import 'package:breaking_bapp/presentation/search_snackbar/character_sliver_list.dart';
+import 'package:breaking_bapp/presentation/pull_to_refresh/user_list_view.dart';
+import 'package:breaking_bapp/presentation/search_grid_bloc/user_sliver_grid.dart';
+import 'package:breaking_bapp/presentation/search_snackbar/user_sliver_list.dart';
 import 'package:flutter/material.dart';
 
-class CharacterListScreen extends StatefulWidget {
+class UserListScreen extends StatefulWidget {
   @override
-  _CharacterListScreenState createState() => _CharacterListScreenState();
+  _UserListScreenState createState() => _UserListScreenState();
 }
 
-class _CharacterListScreenState extends State<CharacterListScreen> {
+class _UserListScreenState extends State<UserListScreen> {
   int _selectedBottomNavigationIndex = 0;
 
   final List<_BottomNavigationItem> _bottomNavigationItems = [
     _BottomNavigationItem(
       label: 'Pull to Refresh',
       iconData: Icons.refresh,
-      widgetBuilder: (context) => CharacterListView(),
+      widgetBuilder: (context) => UserListView(),
     ),
     _BottomNavigationItem(
       label: 'Search/Snackbar',
       iconData: Icons.search,
-      widgetBuilder: (context) => CharacterSliverList(),
+      widgetBuilder: (context) => UserSliverList(),
     ),
     _BottomNavigationItem(
       label: 'BLoC/Grid/Search',
       iconData: Icons.grid_on,
-      widgetBuilder: (context) => CharacterSliverGrid(),
+      widgetBuilder: (context) => UserSliverGrid(),
     ),
   ];
 
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          title: const Text('Characters'),
+          title: const Text('Users'),
         ),
         resizeToAvoidBottomInset: false,
         bottomNavigationBar: BottomNavigationBar(

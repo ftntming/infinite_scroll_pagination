@@ -1,13 +1,12 @@
-/// Summarized information of a character.
-class CharacterSummary {
-  CharacterSummary({
+/// Summarized information of a user.
+class UserSummary {
+  UserSummary({
     required this.id,
     required this.name,
     required this.pictureUrl,
   });
 
-  factory CharacterSummary.fromJson(Map<String, dynamic> json) =>
-      CharacterSummary(
+  factory UserSummary.fromJson(Map<String, dynamic> json) => UserSummary(
         id: json['char_id'],
         name: json['name'],
         pictureUrl: json['img'],

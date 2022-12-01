@@ -1,24 +1,24 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:breaking_bapp/character_summary.dart';
+import 'package:breaking_bapp/user_summary.dart';
 import 'package:http/http.dart' as http;
 
 // ignore: avoid_classes_with_only_static_members
 class RemoteApi {
-  static Future<List<CharacterSummary>> getCharacterList(
+  static Future<List<UserSummary>> getUserList(
     int offset,
     int limit, {
     String? searchTerm,
   }) async =>
       http
           .get(
-            _ApiUrlBuilder.characterList(offset, limit, searchTerm: searchTerm),
+            _ApiUrlBuilder.userList(offset, limit, searchTerm: searchTerm),
           )
-          .mapFromResponse<List<CharacterSummary>, List<dynamic>>(
+          .mapFromResponse<List<UserSummary>, List<dynamic>>(
             (jsonArray) => _parseItemListFromJsonArray(
               jsonArray,
-              (jsonObject) => CharacterSummary.fromJson(jsonObject),
+              (jsonObject) => UserSummary.fromJson(jsonObject),
             ),
           );
 
@@ -36,15 +36,15 @@ class NoConnectionException implements Exception {}
 // ignore: avoid_classes_with_only_static_members
 class _ApiUrlBuilder {
   static const _baseUrl = 'https://www.breakingbadapi.com/api/';
-  static const _charactersResource = 'characters/';
+  static const _usersResource = 'characters/';
 
-  static Uri characterList(
+  static Uri userList(
     int offset,
     int limit, {
     String? searchTerm,
   }) =>
       Uri.parse(
-        '$_baseUrl$_charactersResource?'
+        '$_baseUrl$_usersResource?'
         'offset=$offset'
         '&limit=$limit'
         '${_buildSearchTermQuery(searchTerm)}',

@@ -1,18 +1,18 @@
-import 'package:breaking_bapp/character_summary.dart';
-import 'package:breaking_bapp/presentation/common/character_list_item.dart';
+import 'package:breaking_bapp/presentation/common/user_list_item.dart';
 import 'package:breaking_bapp/remote_api.dart';
+import 'package:breaking_bapp/user_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-class CharacterListView extends StatefulWidget {
+class UserListView extends StatefulWidget {
   @override
-  _CharacterListViewState createState() => _CharacterListViewState();
+  _UserListViewState createState() => _UserListViewState();
 }
 
-class _CharacterListViewState extends State<CharacterListView> {
+class _UserListViewState extends State<UserListView> {
   static const _pageSize = 20;
 
-  final PagingController<int, CharacterSummary> _pagingController =
+  final PagingController<int, UserSummary> _pagingController =
       PagingController(firstPageKey: 0);
 
   @override
@@ -25,7 +25,7 @@ class _CharacterListViewState extends State<CharacterListView> {
 
   Future<void> _fetchPage(int pageKey) async {
     try {
-      final newItems = await RemoteApi.getCharacterList(pageKey, _pageSize);
+      final newItems = await RemoteApi.getUserList(pageKey, _pageSize);
 
       final isLastPage = newItems.length < _pageSize;
       if (isLastPage) {
@@ -44,12 +44,12 @@ class _CharacterListViewState extends State<CharacterListView> {
         onRefresh: () => Future.sync(
           () => _pagingController.refresh(),
         ),
-        child: PagedListView<int, CharacterSummary>.separated(
+        child: PagedListView<int, UserSummary>.separated(
           pagingController: _pagingController,
-          builderDelegate: PagedChildBuilderDelegate<CharacterSummary>(
+          builderDelegate: PagedChildBuilderDelegate<UserSummary>(
             animateTransitions: true,
-            itemBuilder: (context, item, index) => CharacterListItem(
-              character: item,
+            itemBuilder: (context, item, index) => UserListItem(
+              user: item,
             ),
           ),
           separatorBuilder: (context, index) => const Divider(),

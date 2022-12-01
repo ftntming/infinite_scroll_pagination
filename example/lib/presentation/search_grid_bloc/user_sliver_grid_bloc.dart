@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:breaking_bapp/presentation/search_grid_bloc/character_sliver_grid_states.dart';
+import 'package:breaking_bapp/presentation/search_grid_bloc/user_sliver_grid_states.dart';
 import 'package:breaking_bapp/remote_api.dart';
 import 'package:rxdart/rxdart.dart';
 
-class CharacterSliverGridBloc {
-  CharacterSliverGridBloc() {
+class UserSliverGridBloc {
+  UserSliverGridBloc() {
     _onPageRequest.stream
-        .flatMap(_fetchCharacterSummaryList)
+        .flatMap(_fetchUserSummaryList)
         .listen(_onNewListingStateController.add)
         .addTo(_subscriptions);
 
@@ -21,12 +21,11 @@ class CharacterSliverGridBloc {
 
   final _subscriptions = CompositeSubscription();
 
-  final _onNewListingStateController =
-      BehaviorSubject<CharacterListingState>.seeded(
-    CharacterListingState(),
+  final _onNewListingStateController = BehaviorSubject<UserListingState>.seeded(
+    UserListingState(),
   );
 
-  Stream<CharacterListingState> get onNewListingState =>
+  Stream<UserListingState> get onNewListingState =>
       _onNewListingStateController.stream;
 
   final _onPageRequest = StreamController<int>();
@@ -40,28 +39,28 @@ class CharacterSliverGridBloc {
 
   String? get _searchInputValue => _onSearchInputChangedSubject.value;
 
-  Stream<CharacterListingState> _resetSearch() async* {
-    yield CharacterListingState();
-    yield* _fetchCharacterSummaryList(0);
+  Stream<UserListingState> _resetSearch() async* {
+    yield UserListingState();
+    yield* _fetchUserSummaryList(0);
   }
 
-  Stream<CharacterListingState> _fetchCharacterSummaryList(int pageKey) async* {
+  Stream<UserListingState> _fetchUserSummaryList(int pageKey) async* {
     final lastListingState = _onNewListingStateController.value;
     try {
-      final newItems = await RemoteApi.getCharacterList(
+      final newItems = await RemoteApi.getUserList(
         pageKey,
         _pageSize,
         searchTerm: _searchInputValue,
       );
       final isLastPage = newItems.length < _pageSize;
       final nextPageKey = isLastPage ? null : pageKey + newItems.length;
-      yield CharacterListingState(
+      yield UserListingState(
         error: null,
         nextPageKey: nextPageKey,
         itemList: [...lastListingState.itemList ?? [], ...newItems],
       );
     } catch (e) {
-      yield CharacterListingState(
+      yield UserListingState(
         error: e,
         nextPageKey: lastListingState.nextPageKey,
         itemList: lastListingState.itemList,

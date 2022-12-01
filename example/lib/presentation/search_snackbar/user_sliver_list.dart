@@ -1,19 +1,19 @@
-import 'package:breaking_bapp/character_summary.dart';
-import 'package:breaking_bapp/presentation/common/character_list_item.dart';
-import 'package:breaking_bapp/presentation/common/character_search_input_sliver.dart';
+import 'package:breaking_bapp/presentation/common/user_list_item.dart';
+import 'package:breaking_bapp/presentation/common/user_search_input_sliver.dart';
 import 'package:breaking_bapp/remote_api.dart';
+import 'package:breaking_bapp/user_summary.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-class CharacterSliverList extends StatefulWidget {
+class UserSliverList extends StatefulWidget {
   @override
-  _CharacterSliverListState createState() => _CharacterSliverListState();
+  _UserSliverListState createState() => _UserSliverListState();
 }
 
-class _CharacterSliverListState extends State<CharacterSliverList> {
+class _UserSliverListState extends State<UserSliverList> {
   static const _pageSize = 17;
 
-  final PagingController<int, CharacterSummary> _pagingController =
+  final PagingController<int, UserSummary> _pagingController =
       PagingController(firstPageKey: 0);
 
   String? _searchTerm;
@@ -45,7 +45,7 @@ class _CharacterSliverListState extends State<CharacterSliverList> {
 
   Future<void> _fetchPage(pageKey) async {
     try {
-      final newItems = await RemoteApi.getCharacterList(
+      final newItems = await RemoteApi.getUserList(
         pageKey,
         _pageSize,
         searchTerm: _searchTerm,
@@ -66,15 +66,15 @@ class _CharacterSliverListState extends State<CharacterSliverList> {
   @override
   Widget build(BuildContext context) => CustomScrollView(
         slivers: <Widget>[
-          CharacterSearchInputSliver(
+          UserSearchInputSliver(
             onChanged: (searchTerm) => _updateSearchTerm(searchTerm),
           ),
-          PagedSliverList<int, CharacterSummary>(
+          PagedSliverList<int, UserSummary>(
             pagingController: _pagingController,
-            builderDelegate: PagedChildBuilderDelegate<CharacterSummary>(
+            builderDelegate: PagedChildBuilderDelegate<UserSummary>(
               animateTransitions: true,
-              itemBuilder: (context, item, index) => CharacterListItem(
-                character: item,
+              itemBuilder: (context, item, index) => UserListItem(
+                user: item,
               ),
             ),
           ),
